@@ -1,19 +1,26 @@
-from PyQt5.QtWidgets import QWidget,QApplication, QPushButton,QMainWindow,QFileDialog,QColorDialog,QMessageBox
+import os
+import sys
+
+from PyQt5.QtWidgets import QDialog,QWidget,QApplication, QPushButton,QMainWindow,QFileDialog,QColorDialog,QMessageBox
 from PyQt5 import uic,QtGui
 from PyQt5.QtGui import QImage,QIntValidator
 from PyQt5.QtCore import Qt, QSize, QRect,QEvent
 from PyQt5 import QtCore, QtGui, QtWidgets
 from testUI import Ui_MainWindow
+# from InProgress import Ui_InProgressDialog
 import cv2
 import numpy as np
+import time
 from PIL import Image
-from PyQt5.Qt import QWidget, QColor, QPixmap, QIcon, QSize, QCheckBox
-from PIL.ImageFilter import (
-    CONTOUR, EDGE_ENHANCE, EDGE_ENHANCE_MORE,
-    EMBOSS, FIND_EDGES
-)
+from PIL.ImageFilter import EMBOSS
+
 from scipy.interpolate import UnivariateSpline
-from ImageLabel import PaintBoard,tabWidget
+from ImageLabel2 import tabWidget
+from rembg import remove
+import tensorflow as tf
+from AdvancedFunction import pixelate,kMeansImage,augContrast
+from InProgress import ProgressBar
+
 
 class Stats(QMainWindow):
     def __init__(self):
@@ -26,7 +33,10 @@ class Stats(QMainWindow):
         # self.ui = uic.loadUi("testUI.ui")
         # two
         super().__init__()
+        # self.hub_model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
         self.historyImage = []
+        self.draw =False
+        self.crop =False
         # Added code here
         self.filename = None  # Will hold the image address location
         self.tmpImage = None  # Will hold the temporary image for display
@@ -38,6 +48,7 @@ class Stats(QMainWindow):
         self.erode_value_now = 0
         self.thresh_value_now = 0
         self.maxval_value_now = 0
+        self.contrast_value_now = 0
         self.threshType = cv2.THRESH_TOZERO
 
 
@@ -45,18 +56,24 @@ class Stats(QMainWindow):
         # 初始化界面
         self.ui.setupUi(self)
         self.loadImage()
+        self.setupSign()
 
+    def setupSign(self):
         # # 信号和槽
+        self.ui.actionsave.triggered.connect(self.saveImage)
+        self.ui.stackedWidget.currentChanged.connect(self.changeStacked)
         self.ui.canvasTabWidget.tabCloseRequested.connect(self.tabClose)
         self.ui.canvasTabWidget.currentChanged.connect(self.tabChange)
         self.ui.actionNew.triggered.connect(self.loadImage)
         self.ui.actionUndo.triggered.connect(self.undoImage)
+        self.ui.actionRedo.triggered.connect(self.redoImage)
         self.ui.actionOriginalImage.triggered.connect(self.setOriginalImage)
-        self.ui.cropButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
+        # self.ui.cropButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(5))
+        self.ui.rotateButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
         self.ui.drawButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.filterButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
         self.ui.effectButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
-
+        self.ui.advancedButton.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
         # filter function
         self.ui.brightnessHorizontalSlider.valueChanged['int'].connect(self.brightness_value)
         self.ui.blurHorizontalSlider.valueChanged['int'].connect(self.blur_value)
@@ -66,6 +83,10 @@ class Stats(QMainWindow):
         self.ui.erodeHorizontalSlider.valueChanged['int'].connect(self.erode_value)
         self.ui.threshHorizontalSlider.valueChanged['int'].connect(self.thresh_value)
         self.ui.maxvalHorizontalSlider.valueChanged['int'].connect(self.maxval_value)
+        self.ui.contraseHorizontalSlider.valueChanged['int'].connect(self.contrast_value)
+
+        self.ui.contrastLineEdit.setValidator(QIntValidator(1, 10, self))
+        self.ui.contrastLineEdit.textChanged.connect(self.contrast_value)
 
         self.ui.brightnessLineEdit.setValidator(QIntValidator(0, 100, self))
         self.ui.brightnessLineEdit.textChanged.connect(self.brightness_value)
@@ -91,7 +112,7 @@ class Stats(QMainWindow):
         self.ui.maxvalLineEdit.textChanged.connect(self.maxval_value)
         self.ui.threshComboBox.currentIndexChanged.connect(self.changeThreshType)
         self.ui.thresholdResetButton.clicked.connect(self.threholdReset)
-        self.ui.filterApplyButton.clicked.connect(self.applyEffect)
+        # self.ui.filterApplyButton.clicked.connect(self.applyEffect)
 
         # crop function
         self.ui.widthLineEdit.setValidator(QIntValidator(1, 5000, self))
@@ -101,6 +122,8 @@ class Stats(QMainWindow):
         self.ui.rotateRight.clicked.connect(lambda: self.rotate('RIGHT'))
         self.ui.horizontalPushButton.clicked.connect(lambda: self.flip('HORIZONTAL'))
         self.ui.verticalPushButton.clicked.connect(lambda: self.flip('VERTICAL'))
+
+        self.ui.cropPushButton.clicked.connect(self.changeCrop)
 
         # draw function
         self.ui.colorPickPushButton.clicked.connect(self.colorPick)
@@ -131,13 +154,158 @@ class Stats(QMainWindow):
         self.ui.gaussianBlurPushButton.clicked.connect(lambda:self.changeEffect(effect='Gaussian'))
         self.ui.medianBlurPushButton.clicked.connect(lambda:self.changeEffect(effect='Median'))
         self.ui.originalPushButton.clicked.connect(lambda:self.changeEffect(effect='Original'))
-        self.ui.effectApplyButton.clicked.connect(self.applyEffect)
+        # self.ui.effectApplyButton.clicked.connect(self.applyEffect)
 
-        #     ai
+        # advanced part
         self.ui.backRemovePushButton.clicked.connect(self.removeBackground)
-    # ai filter
-    def removeBackground(self):
+        # self.ui.transferPushButton.clicked.connect(self.transferStyle)
+        self.ui.autoContrastPushButton.clicked.connect(self.autoContrast)
+        self.ui.pixel32RadioButton.clicked.connect(lambda:self.changeToPiexl(size=32))
+        self.ui.pixel48RadioButton.clicked.connect(lambda:self.changeToPiexl(size=48))
+        self.ui.pixel64RadioButton.clicked.connect(lambda:self.changeToPiexl(size=64))
+        self.ui.pixel128RadioButton.clicked.connect(lambda:self.changeToPiexl(size=128))
 
+    def autoContrast(self):
+        img = self.currentImage.image.copy()
+        aug_img = augContrast(img)
+        self.currentImage.tmpImage = aug_img
+        self.currentImage.setPhoto(self.currentImage.tmpImage)
+
+    def changeToPiexl(self,size):
+
+        bar = ProgressBar(self)
+
+        bar.set_value(0)
+        img = self.currentImage.image.copy()
+        time.sleep(0.1)
+        bar.set_value(10)
+        imgPiexl = pixelate(img, size, size)
+        time.sleep(0.1)
+        bar.set_value(50)
+        newImage = kMeansImage(imgPiexl, 5)
+        time.sleep(0.1)
+        bar.set_value(80)
+        self.currentImage.tmpImage = newImage
+        self.currentImage.setPhoto(self.currentImage.tmpImage)
+        time.sleep(0.1)
+        bar.set_value(100)
+        time.sleep(0.1)
+        bar.close()
+        QApplication.processEvents()
+
+
+    def changeCrop(self):
+        if self.crop == True:
+            self.crop = False
+            self.setCropButtonColor()
+
+        else:
+            self.crop = True
+            self.setCropButtonColor()
+
+
+        self.currentImage.setCrop(self.crop)
+    def setCropButtonColor(self):
+        if not self.crop:
+            self.ui.cropPushButton.setStyleSheet("""
+                        QPushButton{
+                            border:2px solid rgb(255, 255, 255);
+                            background-color:rgb(0, 0, 0);
+                            color: rgb(255, 255, 255)
+                        }
+                        QPushButton:hover{
+
+                            border: 2px solid rgb(0, 154, 206)
+                        }
+                        """)
+        else:
+            self.ui.cropPushButton.setStyleSheet("""
+                                    QPushButton{
+                                        border:2px solid rgb(0, 0, 0);
+                                        background-color:rgb(255, 255, 255);
+                                        color: rgb(0, 0, 0)
+                                    }
+                                    QPushButton:hover{
+
+                                        border: 2px solid rgb(0, 154, 206)
+                                    }
+                                    """)
+
+
+    def changeStacked(self):
+
+        if self.ui.stackedWidget.currentIndex() == 1:
+            self.draw = True
+        else:
+            self.draw = False
+            self.crop = False
+            self.setCropButtonColor()
+
+
+        self.currentImage.setDraw(self.draw)
+        self.currentImage.setCrop(self.crop)
+
+    def tensor_to_image(self,tensor):
+        tensor = tensor * 255
+        tensor = np.array(tensor, dtype=np.uint8)
+        if np.ndim(tensor) > 3:
+            assert tensor.shape[0] == 1
+            tensor = tensor[0]
+        # img = PIL.Image.fromarray(tensor)
+        # img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+        return np.squeeze(tensor, axis=0)
+
+    def tf_load_img(self,path_to_img):
+        max_dim = 512
+        img = tf.io.read_file(path_to_img)
+        img = tf.image.decode_image(img, channels=3)
+        img = tf.image.convert_image_dtype(img, tf.float32)
+
+        shape = tf.cast(tf.shape(img)[:-1], tf.float32)
+        long_dim = max(shape)
+        scale = max_dim / long_dim
+
+        new_shape = tf.cast(shape * scale, tf.int32)
+
+        img = tf.image.resize(img, new_shape)
+        img = img[tf.newaxis, :]
+        return img
+
+    def transferStyle(self):
+        pass
+        # filename, _ = QFileDialog.getOpenFileName(self, "Open Transfer Image", "",
+        #                                                "JPG Files (*.jpeg *.jpg );;PNG Files (*.png)")
+        # if filename:
+        #     content_image = self.tf_load_img(self.filename)
+        #     style_image =self.tf_load_img(filename)
+        #     stylized_image = self.hub_model(tf.constant(content_image), tf.constant(style_image))[0]
+        #     # print(stylized_image.shape)
+        #     # np.float32(stylized_image)
+        #     self.currentImage.setPhoto(np.float32(stylized_image))
+
+
+    def removeBackground(self):
+        import time
+        bar = ProgressBar(self)
+        bar.set_value(0)
+        time.sleep(0.1)
+        img = self.currentImage.image.copy()
+        bar.set_value(20)
+        result = remove(img)
+        time.sleep(0.1)
+        bar.set_value(50)
+        new_result = cv2.cvtColor(result,cv2.COLOR_BGRA2BGR)
+        time.sleep(0.1)
+        bar.set_value(80)
+        self.currentImage.tmpImage = new_result
+        self.currentImage.setPhoto(self.currentImage.tmpImage)
+        time.sleep(0.1)
+        bar.set_value(100)
+        time.sleep(0.1)
+        bar.close()
+
+    def redoImage(self):
+        self.currentImage.redo()
 
     def undoImage(self):
         self.currentImage.popHistory()
@@ -151,6 +319,7 @@ class Stats(QMainWindow):
 
     def tabClose(self):
         self.ui.canvasTabWidget.removeTab(self.ui.canvasTabWidget.currentIndex())
+
     def changeEvent(self, event):
 
         if event.type() == QEvent.WindowStateChange:
@@ -159,8 +328,8 @@ class Stats(QMainWindow):
             elif event.oldState() & Qt.WindowMinimized:
                 print('changeEvent: Normal/Maximised/FullScreen')
 
-    def testTab(self,image):
-
+    def setupTab(self, image):
+        print(image.shape)
         tempWidget = tabWidget(image = image)
         index = self.filename.rfind('/')
         name = self.filename[index+1:]
@@ -169,12 +338,22 @@ class Stats(QMainWindow):
         self.currentImage = self.ui.canvasTabWidget.currentWidget().imageLabel
         self.currentImage.addHistory(self.currentImage.image)
         self.currentImage.setFileName(self.filename)
+        self.currentImage.setDraw(self.draw)
         color = self.currentImage.getPenColor()
         self.ui.colorPickPushButton.setStyleSheet('background-color: {};'.format(color))
 
+    def saveImage(self):
+        image = self.currentImage.getBoard().toImage()
+        fd, type = QFileDialog.getSaveFileName(self, "Save Image", "", "*.jpg;;*.png")
+        try:
+            image.save(fd)
+        except:
+
+            QMessageBox.information(self, "Error",
+                                    "Unable to save image.", QMessageBox.Ok)
 
     def loadImage(self):
-        """ This function will load the user selected image
+        """ This function will   load the user selected image
             and set it to label using the setPhoto function
         """
         self.filename, _ = QFileDialog.getOpenFileName(self, "Open Image","", "JPG Files (*.jpeg *.jpg );;PNG Files (*.png)")
@@ -186,7 +365,7 @@ class Stats(QMainWindow):
             # -----------------------------------------------------------
 
             image = cv2.imread(self.filename)
-            self.testTab(image)
+            self.setupTab(image)
 
             # -----------------------------------------------------------
             # self.setPhoto(self.image)
@@ -194,28 +373,6 @@ class Stats(QMainWindow):
         else:
             QMessageBox.information(self, "Error",
                                     "Unable to open image.", QMessageBox.Ok)
-
-        # self.filename = QFileDialog.getOpenFileName(filter="Image (*.*)")[0]
-
-    # def setPhoto(self, image=None, gray=False):
-    #     """
-    #         This function will take image input and resize it
-    #         only for display purpose and convert it to QImage
-    #         to set at the label.
-    #     """
-    #     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    #     #         # # image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    #     #         # gray = True
-    #     image = self.fitImage(image)
-    #     # if gray:
-    #     #     image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-    #     #     image = QImage(image, image.shape[1], image.shape[0],image.shape[1],QImage.Format_Indexed8)
-    #     # else:
-    #     image = QImage(image, image.shape[1], image.shape[0], image.strides[0], QImage.Format_RGB888)
-    #     # image_show = QtGui.QPixmap.fromImage(image)
-    #     # self.imageLabel.setPixmap(image_show)
-    #     # self.ui.imageLabel.setCursor(Qt.CrossCursor)
-
 
     def setOriginalImage(self):
         self.currentImage.image = self.currentImage.oriImage
@@ -259,6 +416,8 @@ class Stats(QMainWindow):
     def applyEffect(self):
         self.currentImage.image =self.currentImage.tmpImage
         self.currentImage.addHistory(self.currentImage.image)
+        self.currentImage.emptyRedo()
+        print(self.currentImage.tmpImage.shape)
     def changeDraw(self,draw='brush'):
         self.currentImage.changeDraw(draw)
 
@@ -269,9 +428,6 @@ class Stats(QMainWindow):
             self.currentImage.ChangePenColor(color=color.name())
             self.ui.colorPickPushButton.setStyleSheet('background-color: {};'.format(color.name()))
 
-        # self.currentImage.__penColor = QColor('Yellow')
-        # if self.currentImage.__penColor.isValid():
-        #     print(self.currentImage.__penColor.name())
     def changePenSize(self,size):
         if size != '' and int(size) >= 0 and int(size)<=25:
             self.currentImage.ChangePenThickness(thickness=int(size))
@@ -311,13 +467,8 @@ class Stats(QMainWindow):
         img = self.currentImage.image.copy()
         if effect == 'Original':
             img = self.currentImage.image.copy()
-        elif effect == 'GreyScale':
-            # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            # img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
-            # img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-            # self.tmpImage = img
-            # self.setPhoto(self.tmpImage,True)
-            return
+        elif effect == 'Greyscale':
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         elif effect == 'Brightness':
             img = cv2.convertScaleAbs(img, beta=50)
         elif effect == 'Darker':
@@ -348,12 +499,6 @@ class Stats(QMainWindow):
         elif effect =='Invert':
             img = cv2.bitwise_not(img)
         elif effect =='Summer':
-            # img = cv2.applyColorMap(img, cv2.COLORMAP_SUMMER)
-            # kernel = np.array([[0.272, 0.534, 0.131],
-            #                    [0.349, 0.686, 0.168],
-            #                    [0.393, 0.769, 0.189]])
-            # img = cv2.transform(img, kernel)
-            # img[np.where(img > 255)] = 255  # normalizing
             increaseLookupTable = self.LookupTable([0, 64, 128, 256], [0, 80, 160, 256])
             decreaseLookupTable = self.LookupTable([0, 64, 128, 256], [0, 50, 100, 256])
             blue_channel, green_channel, red_channel = cv2.split(img)
@@ -361,17 +506,31 @@ class Stats(QMainWindow):
             blue_channel = cv2.LUT(blue_channel, decreaseLookupTable).astype(np.uint8)
             img = cv2.merge((blue_channel, green_channel, red_channel))
         elif effect =='Winter':
-
             increaseLookupTable = self.LookupTable([0, 64, 128, 256], [0, 80, 160, 256])
             decreaseLookupTable = self.LookupTable([0, 64, 128, 256], [0, 50, 100, 256])
             blue_channel, green_channel, red_channel = cv2.split(img)
             red_channel = cv2.LUT(red_channel, decreaseLookupTable).astype(np.uint8)
             blue_channel = cv2.LUT(blue_channel, increaseLookupTable).astype(np.uint8)
             img = cv2.merge((blue_channel, green_channel, red_channel))
+        print('filter ', img.shape)
         self.currentImage.tmpImage = img
         self.currentImage.setPhoto(self.currentImage.tmpImage)
 
     # defining a function
+    def contrast_value(self,value):
+        if value != '' and int(value) in range(1, 10):
+            self.ui.contraseHorizontalSlider.blockSignals(True)
+            self.ui.contrastLineEdit.blockSignals(True)
+
+            self.ui.contrastLineEdit.setText(str(value))
+            self.ui.contraseHorizontalSlider.setSliderPosition(int(value))
+
+            self.ui.contraseHorizontalSlider.blockSignals(False)
+            self.ui.contrastLineEdit.blockSignals(False)
+
+            self.contrast_value_now = int(value)
+            print('contrast: ', value)
+            self.update()
 
     def thresh_value(self,value):
         if value != '' and int(value) in range(0, 256):
@@ -542,6 +701,13 @@ class Stats(QMainWindow):
         kernel_size = cv2.getStructuringElement(cv2.MORPH_RECT, (value + 1, value + 1))
         img = cv2.erode(img, kernel_size)
         return img
+    def changeContrast(self,img,value):
+        if value>=1 and value<=10:
+            h, w, ch = img.shape
+            img2 = np.zeros([h, w, ch], img.dtype)
+            img = cv2.addWeighted(img, value, img2, 1 - value, 0)  # addWeighted函数说明如下
+
+        return img
 
     def changeBlur(self, img, value):
         """ This function will take the img image and blur values as inputs.
@@ -623,6 +789,8 @@ class Stats(QMainWindow):
         self.currentImage.tmpImage = temp
         self.currentImage.setPhoto(self.currentImage.image)
         self.currentImage.addHistory(self.currentImage.image.copy())
+        self.currentImage.emptyRedo()
+
 
     def flip(self, option):
         h, w, _ = self.currentImage.image.shape
@@ -637,6 +805,8 @@ class Stats(QMainWindow):
         self.currentImage.tmpImage = temp
         self.currentImage.setPhoto(self.currentImage.image)
         self.currentImage.addHistory(self.currentImage.image.copy())
+        self.currentImage.emptyRedo()
+
 
     def update(self):
         """ This function will update the photo according to the
@@ -648,6 +818,7 @@ class Stats(QMainWindow):
         self.currentImage.tmpImage = self.changeHue(self.currentImage.tmpImage, self.hue_value_now)
         self.currentImage.tmpImage = self.changeDilate(self.currentImage.tmpImage, self.dilate_value_now)
         self.currentImage.tmpImage = self.changeErode(self.currentImage.tmpImage, self.erode_value_now)
+        self.currentImage.tmpImage =self.changeContrast(self.currentImage.tmpImage, self.contrast_value_now)
         self.currentImage.tmpImage = self.changeThreshold(self.currentImage.tmpImage, self.thresh_value_now,self.maxval_value_now)
         self.currentImage.setPhoto(self.currentImage.tmpImage)
 
@@ -661,7 +832,7 @@ class Stats(QMainWindow):
             self.currentImage.setPhoto(self.currentImage.image)
 
 
-app = QApplication([])
+app = QApplication(sys.argv)
 stats = Stats()
 stats.show()
 app.exec_()

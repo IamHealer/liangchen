@@ -6,14 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1216</width>
-    <height>829</height>
+    <width>1245</width>
+    <height>785</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+	
+	background-color:rgb(255, 255, 255);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
      <number>0</number>
@@ -65,39 +74,43 @@
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">#function_frame{
-
-	background-color:rgb(255, 252, 252);
+           <string notr="true">QWidget{
+	border: 2px solid ;
+	border-color : None rgb(0, 0, 0) None None;
 }
 QPushButton{
 	border:none;
 	background-color:rgb(255, 255, 255);
 }
+QPushButton:hover{
+	border: 2px solid rgb(0, 154, 206)
+	
+}
 QPushButton:focus{
-
-	background-color:rgb(219, 255, 231);
+	border: 2px solid rgb(0, 154, 206)
+	
 }
 
 </string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,1,0,7">
+          <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,1,0,7,0">
            <property name="spacing">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="leftMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="topMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="bottomMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <item>
-            <widget class="QPushButton" name="cropButton">
+            <widget class="QPushButton" name="rotateButton">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -113,27 +126,27 @@ QPushButton:focus{
                <height>50</height>
               </size>
              </property>
-             <property name="text">
-              <string>ROTATE</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="textButton">
-             <property name="minimumSize">
-              <size>
-               <width>150</width>
-               <height>50</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>150</width>
-               <height>50</height>
-              </size>
+             <property name="toolTip">
+              <string>Rotate</string>
              </property>
              <property name="text">
-              <string>ADD TEXT</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resImg.qrc">
+               <normaloff>:/icon/icon/refresh.png</normaloff>:/icon/icon/refresh.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -151,8 +164,15 @@ QPushButton:focus{
                <height>50</height>
               </size>
              </property>
-             <property name="text">
+             <property name="toolTip">
               <string>DRAW</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resImg.qrc">
+               <normaloff>:/icon/icon/pencil.png</normaloff>:/icon/icon/pencil.png</iconset>
              </property>
             </widget>
            </item>
@@ -170,8 +190,15 @@ QPushButton:focus{
                <height>50</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Filter</string>
+             </property>
              <property name="text">
-              <string>FILTER</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resImg.qrc">
+               <normaloff>:/icon/icon/filter.png</normaloff>:/icon/icon/filter.png</iconset>
              </property>
             </widget>
            </item>
@@ -189,13 +216,20 @@ QPushButton:focus{
                <height>50</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Effect</string>
+             </property>
              <property name="text">
-              <string>EFFECT</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resImg.qrc">
+               <normaloff>:/icon/icon/effect.png</normaloff>:/icon/icon/effect.png</iconset>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="aiButton">
+            <widget class="QPushButton" name="advancedButton">
              <property name="minimumSize">
               <size>
                <width>150</width>
@@ -208,8 +242,15 @@ QPushButton:focus{
                <height>50</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Advanced Function</string>
+             </property>
              <property name="text">
-              <string>ADVANCED</string>
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="resImg.qrc">
+               <normaloff>:/icon/icon/file-ai.png</normaloff>:/icon/icon/file-ai.png</iconset>
              </property>
             </widget>
            </item>
@@ -226,6 +267,34 @@ QPushButton:focus{
              </property>
             </spacer>
            </item>
+           <item>
+            <widget class="QPushButton" name="drawApplyPushButton">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>150</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QPushButton{
+	background-color : rgb(34, 84, 244);
+	color : rgb(255, 255, 255);
+}</string>
+             </property>
+             <property name="text">
+              <string>Apply</string>
+             </property>
+             <property name="shortcut">
+              <string>Ctrl+S</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -238,9 +307,9 @@ QPushButton:focus{
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">#action_frame{
-
-	background-color:rgb(139, 189, 255);
+           <string notr="true">QWidget#actionWidget{
+	border: 2px solid ;
+	border-color : None rgb(0, 0, 0) None None;
 }</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -254,7 +323,7 @@ QPushButton:focus{
             <number>0</number>
            </property>
            <property name="rightMargin">
-            <number>0</number>
+            <number>10</number>
            </property>
            <property name="bottomMargin">
             <number>0</number>
@@ -263,20 +332,33 @@ QPushButton:focus{
             <widget class="QStackedWidget" name="stackedWidget">
              <property name="styleSheet">
               <string notr="true">QPushButton{
+
 	border:none;
 	background-color:rgb(255, 255, 255);
+	color: black; 
+	font: 10pt  'Arial';
 }
-QPushButton:focus{
 
-	background-color:rgb(219, 255, 231);
+QPushButton:hover{
+
+	border: 2px solid rgb(0, 154, 206)
 }
-</string>
+QLabel{
+
+	color: black; 
+	font: 10pt  'Arial'; 
+}
+QLineEdit{
+
+	color: black; 
+	font: 10pt  'Arial'; 
+}</string>
              </property>
              <property name="currentIndex">
-              <number>4</number>
+              <number>0</number>
              </property>
-             <widget class="QWidget" name="cropPage">
-              <layout class="QVBoxLayout" name="verticalLayout_6" stretch="1,1,0,1,7">
+             <widget class="QWidget" name="rotatePage">
+              <layout class="QVBoxLayout" name="verticalLayout_6">
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,2,1">
                  <property name="spacing">
@@ -315,6 +397,9 @@ QPushButton:focus{
                  <property name="topMargin">
                   <number>10</number>
                  </property>
+                 <property name="bottomMargin">
+                  <number>20</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_2">
                    <property name="text">
@@ -341,21 +426,76 @@ QPushButton:focus{
                 </layout>
                </item>
                <item>
-                <widget class="QPushButton" name="sizePushButton">
-                 <property name="text">
-                  <string>Apply</string>
+                <layout class="QHBoxLayout" name="horizontalLayout_18">
+                 <property name="bottomMargin">
+                  <number>20</number>
                  </property>
-                </widget>
+                 <item>
+                  <spacer name="horizontalSpacer_13">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="sizePushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton{
+	border:2px solid;
+	background-color:rgb(255, 255, 255);
+}
+QPushButton:hover{
+
+	border: 2px solid rgb(0, 154, 206)
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Change</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <property name="topMargin">
                   <number>20</number>
                  </property>
+                 <property name="bottomMargin">
+                  <number>50</number>
+                 </property>
                  <item>
-                  <widget class="QPushButton" name="rotateLeft">
-                   <property name="text">
-                    <string>Left</string>
+                  <widget class="QPushButton" name="rotateRight">
+                   <property name="toolTip">
+                    <string>Rotate Right</string>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/rotate-right.png</normaloff>:/icon/icon/rotate-right.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
@@ -373,9 +513,22 @@ QPushButton:focus{
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="rotateRight">
+                  <widget class="QPushButton" name="rotateLeft">
+                   <property name="toolTip">
+                    <string>Rotate Left</string>
+                   </property>
                    <property name="text">
-                    <string>Right</string>
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/rotate-left.png</normaloff>:/icon/icon/rotate-left.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
@@ -394,8 +547,21 @@ QPushButton:focus{
                  </item>
                  <item>
                   <widget class="QPushButton" name="horizontalPushButton">
+                   <property name="toolTip">
+                    <string>Vertical Flip</string>
+                   </property>
                    <property name="text">
-                    <string>HORIZONTAL</string>
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/hflip.png</normaloff>:/icon/icon/hflip.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
@@ -414,10 +580,83 @@ QPushButton:focus{
                  </item>
                  <item>
                   <widget class="QPushButton" name="verticalPushButton">
+                   <property name="toolTip">
+                    <string>Horizontal Flip </string>
+                   </property>
                    <property name="text">
-                    <string>VERTICAL</string>
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/vflip.png</normaloff>:/icon/icon/vflip.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_27">
+                 <item>
+                  <spacer name="horizontalSpacer_15">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="cropPushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">QPushButton{
+	border:2px solid rgb(255, 255, 255);
+	background-color:rgb(0, 0, 0);
+	color: rgb(255, 255, 255)
+}
+QPushButton:hover{
+
+	border: 2px solid rgb(0, 154, 206)
+}</string>
+                   </property>
+                   <property name="text">
+                    <string>Crop</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_17">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                 </layout>
                </item>
@@ -447,71 +686,193 @@ QPushButton:focus{
               <layout class="QVBoxLayout" name="verticalLayout_8">
                <item>
                 <layout class="QGridLayout" name="gridLayout">
-                 <item row="3" column="1">
+                 <property name="leftMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>50</number>
+                 </property>
+                 <property name="horizontalSpacing">
+                  <number>10</number>
+                 </property>
+                 <property name="verticalSpacing">
+                  <number>50</number>
+                 </property>
+                 <item row="2" column="1">
                   <widget class="QRadioButton" name="lineRadioButton">
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/line.png</normaloff>:/icon/icon/line.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QRadioButton" name="rectRadioButton">
                    <property name="text">
-                    <string>Line</string>
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/rectangle-horizontal.png</normaloff>:/icon/icon/rectangle-horizontal.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="checked">
+                    <bool>false</bool>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QRadioButton" name="brushRadioButton">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
+                   <property name="mouseTracking">
+                    <bool>true</bool>
+                   </property>
                    <property name="text">
-                    <string>brush</string>
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/paint-brush.png</normaloff>:/icon/icon/paint-brush.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
                    </property>
                    <property name="checked">
                     <bool>true</bool>
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="0">
-                  <widget class="QRadioButton" name="rectRadioButton">
-                   <property name="text">
-                    <string>rectangle</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item row="4" column="0">
-                  <widget class="QRadioButton" name="pieRadioButton">
-                   <property name="text">
-                    <string>pie</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item row="1" column="1">
                   <widget class="QRadioButton" name="eplipseRadioButton">
                    <property name="text">
-                    <string>elipse</string>
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/rec.png</normaloff>:/icon/icon/rec.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QRadioButton" name="pieRadioButton">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="resImg.qrc">
+                     <normaloff>:/icon/icon/chart-pie-alt.png</normaloff>:/icon/icon/chart-pie-alt.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>30</width>
+                     <height>30</height>
+                    </size>
                    </property>
                   </widget>
                  </item>
                 </layout>
                </item>
                <item>
-                <widget class="QComboBox" name="penStyleComboBox">
+                <layout class="QHBoxLayout" name="horizontalLayout_21">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>50</number>
+                 </property>
                  <item>
-                  <property name="text">
-                   <string>SolidLine</string>
-                  </property>
+                  <widget class="QComboBox" name="penStyleComboBox">
+                   <property name="styleSheet">
+                    <string notr="true">QComboBox{
+
+	color: black; 
+	font: 10pt  'Arial'; 
+}</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>SolidLine</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>DashLine</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>DotLine</string>
+                    </property>
+                   </item>
+                  </widget>
                  </item>
                  <item>
-                  <property name="text">
-                   <string>DashLine</string>
-                  </property>
+                  <spacer name="horizontalSpacer_8">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
-                 <item>
-                  <property name="text">
-                   <string>DotLine</string>
-                  </property>
-                 </item>
-                </widget>
+                </layout>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>50</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="label_3">
                    <property name="text">
-                    <string>size</string>
+                    <string>Size</string>
                    </property>
                   </widget>
                  </item>
@@ -529,7 +890,27 @@ QPushButton:focus{
                   </widget>
                  </item>
                  <item>
+                  <spacer name="horizontalSpacer_9">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
                   <widget class="QLineEdit" name="penSizeLineEdit">
+                   <property name="styleSheet">
+                    <string notr="true">QLineEdit{
+
+	color: black; 
+	font: 10pt  'Arial'; 
+}</string>
+                   </property>
                    <property name="text">
                     <string>5</string>
                    </property>
@@ -539,12 +920,28 @@ QPushButton:focus{
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                 <property name="spacing">
+                  <number>10</number>
+                 </property>
                  <item>
                   <widget class="QLabel" name="colorLabel">
                    <property name="text">
-                    <string>color</string>
+                    <string>Color</string>
                    </property>
                   </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_12">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
                  </item>
                  <item>
                   <widget class="QPushButton" name="colorPickPushButton">
@@ -579,26 +976,27 @@ QPushButton:focus{
                 </layout>
                </item>
                <item>
-                <widget class="QPushButton" name="drawApplyPushButton">
-                 <property name="styleSheet">
-                  <string notr="true">QPushButton{
-	border:none;
-	background-color:rgb(255, 255, 255);
-}
-QPushButton:focus{
-
-	background-color:rgb(219, 255, 231);
-}
-</string>
+                <spacer name="verticalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
                  </property>
-                 <property name="text">
-                  <string>Apply</string>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>237</height>
+                  </size>
                  </property>
-                </widget>
+                </spacer>
                </item>
               </layout>
              </widget>
              <widget class="QWidget" name="effectPage">
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+	border: 1px solid 
+	
+}</string>
+              </property>
               <layout class="QGridLayout" name="gridLayout_3">
                <property name="leftMargin">
                 <number>0</number>
@@ -632,7 +1030,7 @@ QPushButton:focus{
                     <x>0</x>
                     <y>0</y>
                     <width>477</width>
-                    <height>1162</height>
+                    <height>1132</height>
                    </rect>
                   </property>
                   <property name="minimumSize">
@@ -681,25 +1079,6 @@ QPushButton:focus{
                      <property name="spacing">
                       <number>10</number>
                      </property>
-                     <item row="2" column="1">
-                      <widget class="QPushButton" name="sharpPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Sharp</string>
-                       </property>
-                      </widget>
-                     </item>
                      <item row="1" column="1">
                       <widget class="QPushButton" name="brightnessPushButton">
                        <property name="minimumSize">
@@ -714,84 +1093,15 @@ QPushButton:focus{
                          <height>150</height>
                         </size>
                        </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/bright.jpg);
+
+}</string>
+                       </property>
                        <property name="text">
                         <string>Brightness </string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="2" column="0">
-                      <widget class="QPushButton" name="greyScalePushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>GreyScale</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="1">
-                      <widget class="QPushButton" name="summerPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Summer</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="1" column="0">
-                      <widget class="QPushButton" name="darkerPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Darker</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="3" column="0">
-                      <widget class="QPushButton" name="winterPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Winter</string>
                        </property>
                       </widget>
                      </item>
@@ -809,103 +1119,15 @@ QPushButton:focus{
                          <height>150</height>
                         </size>
                        </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/pencil_col.jpg);
+
+}</string>
+                       </property>
                        <property name="text">
                         <string>Pencil</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="4" column="1">
-                      <widget class="QPushButton" name="invertPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Invert</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="0">
-                      <widget class="QPushButton" name="originalPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Original</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="4" column="0">
-                      <widget class="QPushButton" name="sepiaPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Sepia </string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="0" column="1">
-                      <widget class="QPushButton" name="hdrPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>HDR</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item row="6" column="0">
-                      <widget class="QPushButton" name="medianBlurPushButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>150</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>Median Blur</string>
                        </property>
                       </widget>
                      </item>
@@ -923,8 +1145,93 @@ QPushButton:focus{
                          <height>150</height>
                         </size>
                        </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/gausBlur.jpg);
+
+}</string>
+                       </property>
                        <property name="text">
                         <string>Gaussian Blur</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="6" column="0">
+                      <widget class="QPushButton" name="medianBlurPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/median.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Median Blur</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="1">
+                      <widget class="QPushButton" name="sharpPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/sharpen.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Sharp</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="0">
+                      <widget class="QPushButton" name="originalPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/ori.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Original</string>
                        </property>
                       </widget>
                      </item>
@@ -942,8 +1249,197 @@ QPushButton:focus{
                          <height>150</height>
                         </size>
                        </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/foil.jpg);
+
+}</string>
+                       </property>
                        <property name="text">
                         <string>Foil</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="1">
+                      <widget class="QPushButton" name="invertPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/invert.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Invert</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="4" column="0">
+                      <widget class="QPushButton" name="sepiaPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/sepia.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Sepia </string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="1">
+                      <widget class="QPushButton" name="summerPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/summer.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Summer</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="3" column="0">
+                      <widget class="QPushButton" name="winterPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/winter.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Winter</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="2" column="0">
+                      <widget class="QPushButton" name="greyScalePushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/greyscale.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>GreyScale</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="1" column="0">
+                      <widget class="QPushButton" name="darkerPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/drak.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>Darker</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item row="0" column="1">
+                      <widget class="QPushButton" name="hdrPushButton">
+                       <property name="minimumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>150</width>
+                         <height>150</height>
+                        </size>
+                       </property>
+                       <property name="styleSheet">
+                        <string notr="true">QPushButton{
+color: white;
+background-image:url(:/effectImage/effectImage/HDR.jpg);
+
+}</string>
+                       </property>
+                       <property name="text">
+                        <string>HDR</string>
                        </property>
                       </widget>
                      </item>
@@ -954,51 +1450,6 @@ QPushButton:focus{
                      <property name="spacing">
                       <number>0</number>
                      </property>
-                     <item>
-                      <spacer name="horizontalSpacer_8">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="effectApplyButton">
-                       <property name="minimumSize">
-                        <size>
-                         <width>150</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="maximumSize">
-                        <size>
-                         <width>150</width>
-                         <height>30</height>
-                        </size>
-                       </property>
-                       <property name="text">
-                        <string>APPLY</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_9">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
                     </layout>
                    </item>
                   </layout>
@@ -1011,24 +1462,37 @@ QPushButton:focus{
               <layout class="QVBoxLayout" name="verticalLayout">
                <item>
                 <widget class="QToolBox" name="toolBox">
+                 <property name="styleSheet">
+                  <string notr="true">QToolBox{
+
+	color: black; 
+	font: 10pt  'Arial'; 
+}</string>
+                 </property>
                  <property name="currentIndex">
-                  <number>1</number>
+                  <number>0</number>
                  </property>
                  <widget class="QWidget" name="page">
                   <property name="geometry">
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>170</width>
-                    <height>335</height>
+                    <width>478</width>
+                    <height>326</height>
                    </rect>
                   </property>
                   <attribute name="label">
                    <string>Light</string>
                   </attribute>
                   <layout class="QVBoxLayout" name="verticalLayout_18">
+                   <property name="spacing">
+                    <number>20</number>
+                   </property>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_12">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_12">
                        <item>
@@ -1054,7 +1518,7 @@ QPushButton:focus{
                        <item>
                         <widget class="QLineEdit" name="contrastLineEdit">
                          <property name="text">
-                          <string>0</string>
+                          <string>1</string>
                          </property>
                         </widget>
                        </item>
@@ -1063,58 +1527,13 @@ QPushButton:focus{
                      <item>
                       <widget class="QSlider" name="contraseHorizontalSlider">
                        <property name="minimum">
-                        <number>-50</number>
+                        <number>1</number>
                        </property>
                        <property name="maximum">
-                        <number>50</number>
+                        <number>10</number>
                        </property>
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_17">
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_18">
-                       <item>
-                        <widget class="QLabel" name="label_13">
-                         <property name="text">
-                          <string>Vibrance</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <spacer name="horizontalSpacer_17">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>40</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
-                       <item>
-                        <widget class="QLineEdit" name="vibranceLineEdit">
-                         <property name="text">
-                          <string>0</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                     <item>
-                      <widget class="QSlider" name="vibranceHorizontalSlider">
-                       <property name="minimum">
-                        <number>-50</number>
-                       </property>
-                       <property name="maximum">
-                        <number>50</number>
+                       <property name="sliderPosition">
+                        <number>1</number>
                        </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
@@ -1125,6 +1544,9 @@ QPushButton:focus{
                    </item>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_16">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_17">
                        <item>
@@ -1173,6 +1595,9 @@ QPushButton:focus{
                    </item>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_9">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_9">
                        <item>
@@ -1224,12 +1649,15 @@ QPushButton:focus{
                    </item>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_11">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_10">
                        <item>
                         <widget class="QLabel" name="label_4">
                          <property name="text">
-                          <string>saturation</string>
+                          <string>Saturation</string>
                          </property>
                         </widget>
                        </item>
@@ -1280,16 +1708,19 @@ QPushButton:focus{
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>478</width>
-                    <height>314</height>
+                    <width>281</width>
+                    <height>391</height>
                    </rect>
                   </property>
                   <attribute name="label">
                    <string>Details</string>
                   </attribute>
-                  <layout class="QVBoxLayout" name="verticalLayout_23">
+                  <layout class="QVBoxLayout" name="verticalLayout_21">
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_10">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_11">
                        <item>
@@ -1341,12 +1772,15 @@ QPushButton:focus{
                    </item>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_19">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_19">
                        <item>
                         <widget class="QLabel" name="label_14">
                          <property name="text">
-                          <string>dilate</string>
+                          <string>Dilate</string>
                          </property>
                         </widget>
                        </item>
@@ -1392,12 +1826,15 @@ QPushButton:focus{
                    </item>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_20">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_20">
                        <item>
                         <widget class="QLabel" name="label_15">
                          <property name="text">
-                          <string>erode</string>
+                          <string>Erode</string>
                          </property>
                         </widget>
                        </item>
@@ -1442,124 +1879,163 @@ QPushButton:focus{
                     </layout>
                    </item>
                    <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_25">
+                    <layout class="QVBoxLayout" name="verticalLayout_17">
+                     <property name="spacing">
+                      <number>10</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>10</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>10</number>
+                     </property>
                      <item>
-                      <widget class="QLabel" name="label_20">
-                       <property name="text">
-                        <string>Threshold</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <spacer name="horizontalSpacer_22">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>40</width>
-                         <height>20</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="thresholdResetButton">
-                       <property name="text">
-                        <string>Reset</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QComboBox" name="threshComboBox">
+                      <layout class="QHBoxLayout" name="horizontalLayout_25">
                        <item>
-                        <property name="text">
-                         <string>THRESH_TOZERO</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>THRESH_TOZERO_INV</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>THRESH_BINARY</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>THRESH_BINARY_INV</string>
-                        </property>
-                       </item>
-                       <item>
-                        <property name="text">
-                         <string>THRESH_TRUNC</string>
-                        </property>
-                       </item>
-                      </widget>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_22">
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_23">
-                       <item>
-                        <widget class="QLabel" name="label_18">
+                        <widget class="QLabel" name="label_20">
                          <property name="text">
-                          <string>thresh</string>
+                          <string>Threshold</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QSlider" name="threshHorizontalSlider">
-                         <property name="maximum">
-                          <number>255</number>
-                         </property>
+                        <spacer name="horizontalSpacer_22">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
-                        </widget>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="threshLineEdit">
-                         <property name="text">
-                          <string>0</string>
-                         </property>
+                        <widget class="QComboBox" name="threshComboBox">
+                         <item>
+                          <property name="text">
+                           <string>THRESH_TOZERO</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>THRESH_TOZERO_INV</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>THRESH_BINARY</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>THRESH_BINARY_INV</string>
+                          </property>
+                         </item>
+                         <item>
+                          <property name="text">
+                           <string>THRESH_TRUNC</string>
+                          </property>
+                         </item>
                         </widget>
                        </item>
                       </layout>
                      </item>
                      <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_22"/>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_24">
+                      <layout class="QVBoxLayout" name="verticalLayout_22">
+                       <property name="spacing">
+                        <number>10</number>
+                       </property>
                        <item>
-                        <widget class="QLabel" name="label_19">
-                         <property name="text">
-                          <string>maxval</string>
-                         </property>
-                        </widget>
+                        <layout class="QHBoxLayout" name="horizontalLayout_23">
+                         <item>
+                          <widget class="QLabel" name="label_18">
+                           <property name="text">
+                            <string>Thresh</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QSlider" name="threshHorizontalSlider">
+                           <property name="maximum">
+                            <number>255</number>
+                           </property>
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLineEdit" name="threshLineEdit">
+                           <property name="text">
+                            <string>0</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
                        </item>
                        <item>
-                        <widget class="QSlider" name="maxvalHorizontalSlider">
-                         <property name="maximum">
-                          <number>255</number>
-                         </property>
-                         <property name="sliderPosition">
-                          <number>0</number>
-                         </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_22"/>
+                       </item>
+                       <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout_24">
+                         <item>
+                          <widget class="QLabel" name="label_19">
+                           <property name="text">
+                            <string>Maxval</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QSlider" name="maxvalHorizontalSlider">
+                           <property name="maximum">
+                            <number>255</number>
+                           </property>
+                           <property name="sliderPosition">
+                            <number>0</number>
+                           </property>
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLineEdit" name="maxvalLineEdit">
+                           <property name="text">
+                            <string>0</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_15">
+                       <item>
+                        <spacer name="horizontalSpacer_14">
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
                          </property>
-                        </widget>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
                        </item>
                        <item>
-                        <widget class="QLineEdit" name="maxvalLineEdit">
+                        <widget class="QPushButton" name="thresholdResetButton">
+                         <property name="styleSheet">
+                          <string notr="true">QPushButton{
+	border:2px solid;
+	background-color:rgb(255, 255, 255);
+}</string>
+                         </property>
                          <property name="text">
-                          <string>0</string>
+                          <string>Reset</string>
                          </property>
                         </widget>
                        </item>
@@ -1585,45 +2061,128 @@ QPushButton:focus{
                 </spacer>
                </item>
                <item>
-                <layout class="QVBoxLayout" name="verticalLayout_14">
+                <layout class="QVBoxLayout" name="verticalLayout_14"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="advancedPage">
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+	border:2px solid;
+	background-color:rgb(255, 255, 255);
+}</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_15">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <property name="spacing">
+                  <number>20</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>50</number>
+                 </property>
                  <item>
-                  <widget class="QPushButton" name="filterApplyButton">
+                  <widget class="QPushButton" name="backRemovePushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>150</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>150</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Apply</string>
+                    <string>Remove</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="autoContrastPushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>150</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>150</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>Auto Contrast</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
                </item>
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_13">
+                 <property name="spacing">
+                  <number>20</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_8">
+                   <property name="text">
+                    <string>Pixel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_13">
+                   <item>
+                    <widget class="QRadioButton" name="pixel32RadioButton">
+                     <property name="text">
+                      <string>32 * 32</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="pixel48RadioButton">
+                     <property name="text">
+                      <string>48 * 48</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="pixel64RadioButton">
+                     <property name="text">
+                      <string>64 * 64</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="pixel128RadioButton">
+                     <property name="text">
+                      <string>128 * 128</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="advancedPage">
-              <widget class="QPushButton" name="backRemovePushButton">
-               <property name="geometry">
-                <rect>
-                 <x>190</x>
-                 <y>160</y>
-                 <width>150</width>
-                 <height>150</height>
-                </rect>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>150</width>
-                 <height>150</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>150</width>
-                 <height>150</height>
-                </size>
-               </property>
-               <property name="text">
-                <string>Remove</string>
-               </property>
-              </widget>
-             </widget>
+             <widget class="QWidget" name="cropPage"/>
             </widget>
            </item>
           </layout>
@@ -1638,9 +2197,9 @@ QPushButton:focus{
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">#edit_frame{
+           <string notr="true">QWidget{
 
-	background-color:rgb(255, 252, 252);
+	background-color:rgb(241, 242, 244);
 }</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -1666,6 +2225,15 @@ QPushButton:focus{
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string/>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">#canvasTabWidget{
+	background-color: #171719;
+
+}</string>
              </property>
              <property name="currentIndex">
               <number>-1</number>
@@ -1695,7 +2263,7 @@ QPushButton:focus{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1216</width>
+     <width>1245</width>
      <height>26</height>
     </rect>
    </property>
@@ -1705,6 +2273,7 @@ QPushButton:focus{
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionsave"/>
+    <addaction name="actionChange_Name"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1717,6 +2286,7 @@ QPushButton:focus{
     </property>
     <addaction name="actionOriginalImage"/>
     <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -1750,7 +2320,22 @@ QPushButton:focus{
     <string>Ctrl+Z</string>
    </property>
   </action>
+  <action name="actionChange_Name">
+   <property name="text">
+    <string>Change Name</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="resImg.qrc"/>
+ </resources>
  <connections/>
 </ui>
