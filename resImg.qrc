@@ -1,0 +1,39 @@
+<RCC>
+  <qresource prefix="icon">
+    <file>icon/hflip.png</file>
+    <file>icon/rotate-left.png</file>
+    <file>icon/rotate-right.png</file>
+    <file>icon/text.png</file>
+    <file>icon/vflip.png</file>
+    <file>icon/chart-pie-alt.png</file>
+    <file>icon/effect.png</file>
+    <file>icon/file-ai.png</file>
+    <file>icon/filter.png</file>
+    <file>icon/line.png</file>
+    <file>icon/paint-brush.png</file>
+    <file>icon/pencil.png</file>
+    <file>icon/rec.png</file>
+    <file>icon/rectangle-horizontal.png</file>
+    <file>icon/refresh.png</file>
+  </qresource>
+  <qresource prefix="effectImage">
+    <file>effectImage/foil.jpg</file>
+    <file>effectImage/p32.jpg</file>
+    <file>effectImage/p48.jpg</file>
+    <file>effectImage/p64.jpg</file>
+    <file>effectImage/p128.jpg</file>
+    <file>effectImage/gausBlur.jpg</file>
+    <file>effectImage/median.jpg</file>
+    <file>effectImage/pencil_col.jpg</file>
+    <file>effectImage/bright.jpg</file>
+    <file>effectImage/drak.jpg</file>
+    <file>effectImage/greyscale.jpg</file>
+    <file>effectImage/HDR.jpg</file>
+    <file>effectImage/invert.jpg</file>
+    <file>effectImage/ori.jpg</file>
+    <file>effectImage/sepia.jpg</file>
+    <file>effectImage/sharpen.jpg</file>
+    <file>effectImage/summer.jpg</file>
+    <file>effectImage/winter.jpg</file>
+  </qresource>
+</RCC>
