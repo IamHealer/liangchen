@@ -1,9 +1,12 @@
 # Edittt (Photo Editing Software)
 Final Project
-\\Python 3.8
-\\Pyqt5 5.15.4
+
 
 ## Getting Started
+
+Python 3.8
+
+Pyqt5 5.15.4
 
 Run main.py
 
